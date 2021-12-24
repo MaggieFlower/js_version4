@@ -29,7 +29,7 @@ class RandomGraph{
     }
     print() {
         [...this.nodes].forEach((item, index) => {
-            console.log('neighbors: ', item.id, [...item.neighbors].map(n => n.id))
+            console.log('222neighbors: ', item.id, [...item.neighbors].map(n => n.id))
             // const ids = [...item.neighbors].forEach(it => console.log('it: ', it));
             // console.log(ids);
         })
