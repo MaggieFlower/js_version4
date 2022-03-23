@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .promise-body{
+            text-align: center;
+            height: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        h5{
+            text-align: center;
+            font-size: 30px;
+            margin-top: 200px;
+        }
+        .promise-btn{
+            width: 200px;
+            height: 50px;
+            display: inline-block;
+            border: none;
+            color: #fff;
+            font-size: 20px;
+        }
+        .promise-btn-start{
+            background-color: lightcoral;
+        }
+        .promise-btn-cancel{
+            background-color: lightgray;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h5>取消promise</h5>
+    <section class="promise-body">
+        <button class="promise-btn promise-btn-start">start</button>
+        <button class="promise-btn promise-btn-cancel">cancel</button>
+    </section>
+</body>
+<script>
+    const startBtn = document.querySelector('.promise-btn-start');
+    const cancelBtn = document.querySelector('.promise-btn-cancel');
+    let cancelBtnBindEvent = false;
+
+    class CancelPromise{
+        constructor(callback) {
+            this.promise = new Promise((resolve, reject) => {
+                const fn = () =>  {
+                    resolve();
+                }
+                callback(fn);
+            })
+        }
+    }
+    function cancellablePromise(delay) {
+        let id = 0;
+        return new Promise((resolve, reject) => {
+            console.log(parseInt(delay / 1000) + '秒后触发点击事件');
+            const date = new Date().getTime();
+            
+            id = setTimeout(() => {
+                console.log('点击事件已经触发啦。耗时： ', new Date().getTime() - date);
+                resolve({id, date});
+            }, delay);
+            const cancelPromise = new CancelPromise((callback) => {
+                // 避免点击时多次绑定
+                // cancelBtn.addEventListener('click', callback);
+                cancelBtn.onclick = callback
+            });
+            cancelPromise.promise.then(() => {
+                console.log('点击事件已经取消啦！');
+                clearTimeout(id);
+            })
+        })
+    }
+
+    startBtn.addEventListener('click', () => cancellablePromise(2000));
+</script>
+</html>

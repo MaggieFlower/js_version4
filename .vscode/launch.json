@@ -7,6 +7,7 @@
         "name": "调试 Node.js 程序",
         "type": "node",
         "request": "launch",
-        "program": "${workspaceFolder}/7-article/generator/connect.js"
+        "externalConsole": true,
+        "program": "${workspaceFolder}/11-article/async.js"
     }]
 }
